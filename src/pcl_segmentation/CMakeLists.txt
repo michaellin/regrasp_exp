@@ -119,6 +119,7 @@ catkin_package(
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -149,6 +150,7 @@ add_executable(example src/example.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(example
   ${catkin_LIBRARIES}
+  ${PCL_LIBRARY_DIRS}
 )
 
 #############
