@@ -1,7 +1,7 @@
 import numpy as np
 import open3d as o3d
 
-plotOn = True
+plotOn = False
 
 if __name__ == "__main__":
     print("Load a pcd point cloud, print it, and render it")
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     pcd_color_dist = np.linalg.norm(np.subtract(pcd_colors, np.array([0.025, 0.16, 0.75])), axis=1)
     pcd_color_dist_sorted = np.argsort(pcd_color_dist)
     # get index of colors that are close enough
-    pcd_color_dist_filt = pcd_color_dist < 0.35
+    pcd_color_dist_filt = pcd_color_dist < 0.38
     print(pcd_color_dist_filt)
 
     # filter the original point cloud
@@ -26,6 +26,7 @@ if __name__ == "__main__":
     new_pcd = o3d.geometry.PointCloud()
     new_pcd.points = o3d.utility.Vector3dVector(pcd_points_filtered)
     new_pcd.colors = o3d.utility.Vector3dVector(pcd_color_filtered)
+    o3d.io.write_point_cloud("../data/segmented_bowl.pcd", new_pcd)
     if plotOn:
       vis = o3d.visualization.VisualizerWithEditing()
       vis.create_window()

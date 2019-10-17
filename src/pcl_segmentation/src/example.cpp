@@ -15,18 +15,18 @@
 #include <pcl/filters/passthrough.h>
 #include <pcl/segmentation/region_growing.h>
 
-ros::Publisher pub;
-
-void 
-cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
+int
+main (int argc, char** argv)
 {
-
+  
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
   if ( pcl::io::loadPCDFile <pcl::PointXYZ> ("PointCloud2.pcd", *cloud) == -1)
   {
     std::cout << "Cloud reading failed." << std::endl;
+    return -1
   }
 
+  // Estimating the surface normals to feed later to the growing algorithm
   pcl::search::Search<pcl::PointXYZ>::Ptr tree (new pcl::search::KdTree<pcl::PointXYZ>);
   pcl::PointCloud <pcl::Normal>::Ptr normals (new pcl::PointCloud <pcl::Normal>);
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimator;
@@ -43,7 +43,7 @@ cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
   pass.filter (*indices);
 
   pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
-  reg.setMinClusterSize (50);
+  reg.setMinClusterSize (500);
   reg.setMaxClusterSize (1000000);
   reg.setSearchMethod (tree);
   reg.setNumberOfNeighbours (30);
@@ -74,33 +74,5 @@ cloud_cb (const sensor_msgs::PointCloud2ConstPtr& input)
   pcl::io::savePCDFileASCII ("test_pcd.pcd", *colored_cloud);
   std::cerr << "Saved " << colored_cloud->points.size () << " data points to test_pcd.pcd." << std::endl;
 
-
-  // Create a container for the data.
-//sensor_msgs::PointCloud2 output;
-
-  // Do data processing here...
-//output = *input;
-
-  // Publish the data.
-//pub.publish (output);
-  ROS_INFO("hi");
-}
-
-int
-main (int argc, char** argv)
-{
-  
-  // Initialize ROS
-  ros::init (argc, argv, "pcl_segmentation");
-  ros::NodeHandle nh;
-
-  // Create a ROS subscriber for the input point cloud
-  ros::Subscriber sub = nh.subscribe ("cloud_pcd", 1, cloud_cb);
-
-  // Create a ROS publisher for the output point cloud
-  pub = nh.advertise<sensor_msgs::PointCloud2> ("output", 1);
-
-  // Spin
-  ros::spin ();
 
 }
