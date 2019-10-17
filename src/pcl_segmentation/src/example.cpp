@@ -20,10 +20,10 @@ main (int argc, char** argv)
 {
   
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
-  if ( pcl::io::loadPCDFile <pcl::PointXYZ> ("PointCloud2.pcd", *cloud) == -1)
+  if ( pcl::io::loadPCDFile <pcl::PointXYZ> ("data/PointCloud2.pcd", *cloud) == -1)
   {
     std::cout << "Cloud reading failed." << std::endl;
-    return -1
+    return -1;
   }
 
   // Estimating the surface normals to feed later to the growing algorithm
@@ -43,14 +43,14 @@ main (int argc, char** argv)
   pass.filter (*indices);
 
   pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
-  reg.setMinClusterSize (500);
+  reg.setMinClusterSize (1000);
   reg.setMaxClusterSize (1000000);
   reg.setSearchMethod (tree);
   reg.setNumberOfNeighbours (30);
   reg.setInputCloud (cloud);
   //reg.setIndices (indices);
   reg.setInputNormals (normals);
-  reg.setSmoothnessThreshold (3.0 / 180.0 * M_PI);
+  reg.setSmoothnessThreshold (2.0 / 180.0 * M_PI);
   reg.setCurvatureThreshold (1.0);
 
   std::vector <pcl::PointIndices> clusters;
@@ -71,7 +71,7 @@ main (int argc, char** argv)
   std::cout << std::endl;
 
   pcl::PointCloud <pcl::PointXYZRGB>::Ptr colored_cloud = reg.getColoredCloud();
-  pcl::io::savePCDFileASCII ("test_pcd.pcd", *colored_cloud);
+  pcl::io::savePCDFileASCII ("data/test_pcd3.pcd", *colored_cloud);
   std::cerr << "Saved " << colored_cloud->points.size () << " data points to test_pcd.pcd." << std::endl;
 
 
