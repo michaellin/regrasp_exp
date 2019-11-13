@@ -1,8 +1,0 @@
-prefix=/home/michael/workspace/shared_ws/devel
-
-Name: pcl_segmentation
-Description: Description of pcl_segmentation
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/michael/workspace/shared_ws/devel/lib 
-Requires: 
