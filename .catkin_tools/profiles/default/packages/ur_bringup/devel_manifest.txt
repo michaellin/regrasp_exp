@@ -1,5 +1,5 @@
 universal_robot/ur_bringup
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur_bringup/cmake.lock /home/michael/workspace/tri_pc_segmentation/devel/./cmake.lock
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur_bringup/share/ur_bringup/cmake/ur_bringupConfig.cmake /home/michael/workspace/tri_pc_segmentation/devel/share/ur_bringup/cmake/ur_bringupConfig.cmake
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur_bringup/share/ur_bringup/cmake/ur_bringupConfig-version.cmake /home/michael/workspace/tri_pc_segmentation/devel/share/ur_bringup/cmake/ur_bringupConfig-version.cmake
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur_bringup/lib/pkgconfig/ur_bringup.pc /home/michael/workspace/tri_pc_segmentation/devel/lib/pkgconfig/ur_bringup.pc
+/home/bdml/ml_ws/regrasp_exp/devel/.private/ur_bringup/cmake.lock /home/bdml/ml_ws/regrasp_exp/devel/./cmake.lock
+/home/bdml/ml_ws/regrasp_exp/devel/.private/ur_bringup/share/ur_bringup/cmake/ur_bringupConfig-version.cmake /home/bdml/ml_ws/regrasp_exp/devel/share/ur_bringup/cmake/ur_bringupConfig-version.cmake
+/home/bdml/ml_ws/regrasp_exp/devel/.private/ur_bringup/share/ur_bringup/cmake/ur_bringupConfig.cmake /home/bdml/ml_ws/regrasp_exp/devel/share/ur_bringup/cmake/ur_bringupConfig.cmake
+/home/bdml/ml_ws/regrasp_exp/devel/.private/ur_bringup/lib/pkgconfig/ur_bringup.pc /home/bdml/ml_ws/regrasp_exp/devel/lib/pkgconfig/ur_bringup.pc
