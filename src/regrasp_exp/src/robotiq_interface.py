@@ -8,48 +8,52 @@
 
 import os
 import sys
-import roslib; roslib.load_manifest('ur_driver')
+import time
+import signal
+import roslib; roslib.load_manifest('robotiq_2f_gripper_control')
 import rospy
+import subprocess
+from robotiq_2f_gripper_control.msg import _Robotiq2FGripper_robot_output  as outputMsg
 
 
 class RobotiqInterface:
     """ An interface class for Robotiq 2F-85 """
 
     def __init__(self):
-        self.robot = moveit_commander.RobotCommander()
-        self.scene = moveit_commander.PlanningSceneInterface()
-        self.group = moveit_commander.MoveGroupCommander("manipulator")
+        # run the robotiq controller process
+        os.system("sudo chmod 777 /dev/ttyUSB0")
+        self.proc = subprocess.Popen(['exec rosrun robotiq_2f_gripper_control Robotiq2FGripperRtuNode.py /dev/ttyUSB0'], stdout=subprocess.PIPE, \
+                                       shell=True)
 
-        self.display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
-                                                        moveit_msgs.msg.DisplayTrajectory,
-                                                        queue_size=20)
+        time.sleep(2)
+        print("Robotiq Gripper Started")
 
-        self.goal_state_publisher = rospy.Publisher('/rviz/moveit/update_custom_goal_state',
-                                                        moveit_msgs.msg.RobotState,
-                                                        queue_size=20)
+        self.gripper_pub = rospy.Publisher('Robotiq2FGripperRobotOutput', outputMsg.Robotiq2FGripper_robot_output, queue_size = 3)
 
-        ## Getting Basic Information
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^
-        # We can get the name of the reference frame for this robot:
-        planning_frame = self.group.get_planning_frame()
-        print "============ Reference frame: %s" % planning_frame
+        # perform a gripper reset
+        print("============ Gripper about to reset Press `Enter` to continue  ...")
+        raw_input()
 
-        # We can also print the name of the end-effector link for this group:
-        eef_link = self.group.get_end_effector_link()
-        print "============ End effector: %s" % eef_link
+        self.command = outputMsg.Robotiq2FGripper_robot_output();
+        self.command.rACT = 0
+        self.gripper_pub.publish(self.command)
+        time.sleep(1)
+        self.command = outputMsg.Robotiq2FGripper_robot_output();
+        self.command.rACT = 1
+        self.command.rGTO = 1
+        self.command.rSP  = 180
+        self.command.rFR  = 150
+        self.gripper_pub.publish(self.command)
 
-        # We can get a list of all the groups in the robot:
-        group_names = self.robot.get_group_names()
-        print "============ Robot Groups:", self.robot.get_group_names()
 
-        # Sometimes for debugging it is useful to print the entire state of the
-        # robot:
-        print "============ Printing robot state"
-        print self.robot.get_current_state()
-        print ""
 
-        self.group.set_max_acceleration_scaling_factor(0.1)
-        self.group.set_max_velocity_scaling_factor(0.1)
-        print "============ Set a max acceleration value of 0.1"
-        print "============ Set a max velocity value of 0.1"
+    def __del__(self):
+        self.proc.kill()
+
+    def goto_gripper_pos(self, pos):
+        if (pos < 0) or (pos > 255):
+            print("Robotiq Gripper bad position input")
+        self.command.rPR = pos
+        self.gripper_pub.publish(self.command)
+
 

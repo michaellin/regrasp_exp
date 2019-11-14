@@ -22,7 +22,7 @@ class UR5Interface:
     joint_names = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint',
                    'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
 
-    joint_values_home = [1.6845918792456167, -1.8342814957708313, 2.0682454789097644, -1.8024887849292996, -1.5699222571388365, 1.6841929684171044]
+    joint_values_home = [1.4426736366647526, -1.9116037148601706, 2.0718699175826867, -1.7269285345190166, -1.5725291616141668, 1.442185460127628]
 
     def __init__(self):
         self.robot = moveit_commander.RobotCommander()
@@ -81,30 +81,32 @@ class UR5Interface:
         """ get robot joint values """
         return self.group.get_current_joint_values()
 
-    def goto_home_pose(self):
+    def goto_home_pose(self, wait=True):
         """ go to robot end effector home pose """
-        self.goto_joint_target(self.joint_values_home)
+        self.goto_joint_target(self.joint_values_home, wait=wait)
 
-    def goto_pose_target(self, pose):
+    def goto_pose_target(self, pose, wait=True):
         """ go to robot end effector pose target """
         self.group.set_pose_target(pose)
         # simulate in rviz then ask user for feedback
         plan = self.group.plan()
         self.display_trajectory(plan)
-        print("============ Press `Enter` to execute the movement ...")
-        raw_input()
+        if (wait == True):
+            print("============ Press `Enter` to execute the movement ...")
+            raw_input()
         self.group.execute(plan, wait=True)
         self.group.stop()
         self.group.clear_pose_targets()
 
-    def goto_joint_target(self, joint_vals):
+    def goto_joint_target(self, joint_vals, wait=True):
         """ go to robot end effector joint target """
         self.group.set_joint_value_target(joint_vals)
         # simulate in rviz then ask user for feedback
         plan = self.group.plan()
         self.display_trajectory(plan)
-        print("============ Press `Enter` to execute the movement ...")
-        raw_input()
+        if (wait == True):
+            print("============ Press `Enter` to execute the movement ...")
+            raw_input()
         self.group.execute(plan, wait=True)
         self.group.stop()
         self.group.clear_pose_targets()
