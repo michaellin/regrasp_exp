@@ -5,6 +5,7 @@ import time
 import struct
 import numpy as np
 import os, sys
+import subprocess
 import time
 
 from tae_psoc.msg import SensorPacket
@@ -21,6 +22,9 @@ IDLE_LOG = 0
 RUN_LOG = 1
 STOP_LOG = 2
 
+# global variables
+data_log_status = IDLE_LOG
+
 
 def sensor_data_cb(data):
     global curr_ft_data
@@ -34,10 +38,8 @@ def write_frame_to_file(fd):
     global curr_ft_data
     global tfBuffer
     robot_pose = get_7dof_from_msg(tfBuffer.lookup_transform('tool0', 'base_link', rospy.Time(0)))
-    #data = np.hstack((curr_ft_data, robot_pose))
     data = np.hstack((curr_ft_data, curr_robot_data))
     fd.write(','.join([`num` for num in data]) + '\n')
-    #print(','.join([`num` for num in data]))
     fd.flush()
 
 
@@ -62,20 +64,24 @@ def service_request(req_arg):
     elif (req_arg.cmd == "Stop"):
         data_log_status = STOP_LOG
     # return resopnse of 1 for success
-    return dataLogResponse(1)
+    return logDataResponse('Success')
 
 
 def mainLoop():
     global ftsensor_pub
-    global data_log_status 
     global tfBuffer
     global curr_ft_data
     global curr_robot_data
+    global psoc_proc
 
     curr_ft_data = np.zeros(6)
     curr_robot_data = np.zeros(6)
 
     rospy.init_node('regraspData', disable_signals=True)
+
+    os.system('sudo chmod 777 /dev/ttyACM0')
+    #psoc_proc = subprocess.Popen(['exec rosrun tae_psoc psocPubSub.py test'], stdout=subprocess.PIPE, shell=True)
+    #time.sleep(4)
 
     rate = rospy.Rate(500)
 
@@ -90,34 +96,41 @@ def mainLoop():
     tfBuffer = tf2_ros.Buffer()
     tfListener = tf2_ros.TransformListener(tfBuffer)
 
-    time.sleep(1)
+    time.sleep(2)
     cmd_msg = cmdToPsoc(IDLE_CMD)
     ftsensor_pub.publish(cmd_msg)
-    time.sleep(1)
-    print("publishing start cmd")
+    time.sleep(2)
     cmd_msg = cmdToPsoc(START_CMD)
     ftsensor_pub.publish(cmd_msg)
 
     data_filepath = os.path.dirname(os.path.abspath(__file__)) + "/data/"
+    counter = 0
 
-    data_log_status = IDLE_LOG
+    time.sleep(10)
 
     #We loop
     fileN = 0
     while os.path.exists(data_filepath + 'exp%d.txt' % fileN):
         fileN += 1
-    with open(data_filepath + 'exp%d.txt' % fileN, 'w', buffering=1) as redf:
-        while not rospy.is_shutdown():
-            if (data_log_status == RUN_LOG):
-                write_frame_to_file(redf)
-            if (data_log_status == STOP_LOG):
-                cmd_msg = cmdToPsoc(IDLE_CMD)
-                ftsensor_pub.publish(cmd_msg)
-                break
-            rate.sleep()
+    #with open(data_filepath + 'exp%d.txt' % fileN, 'w', buffering=1) as redf:
+    redf = open(data_filepath + 'exp%d.txt' % fileN, 'w', buffering=1)
+    while not rospy.is_shutdown():
+        if (data_log_status == RUN_LOG):
+            write_frame_to_file(redf)
+        if (data_log_status == STOP_LOG):
+            cmd_msg = cmdToPsoc(IDLE_CMD)
+            ftsensor_pub.publish(cmd_msg)
+            redf.close()
+            psoc_proc.kill()
+            cmd_msg = cmdToPsoc(IDLE_CMD)
+            ftsensor_pub.publish(cmd_msg)
+            print("Service killed")
+            break
+        rate.sleep()
                 
 if __name__ == '__main__':
     global ftsensor_pub
+    global psoc_proc
     try:
         print("Started!")
         mainLoop()

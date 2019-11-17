@@ -22,8 +22,7 @@ class RobotiqInterface:
     def __init__(self):
         # run the robotiq controller process
         os.system("sudo chmod 777 /dev/ttyUSB0")
-        self.proc = subprocess.Popen(['exec rosrun robotiq_2f_gripper_control Robotiq2FGripperRtuNode.py /dev/ttyUSB0'], stdout=subprocess.PIPE, \
-                                       shell=True)
+        self.proc = subprocess.Popen(['exec rosrun robotiq_2f_gripper_control Robotiq2FGripperRtuNode.py /dev/ttyUSB0'], stdout=subprocess.PIPE, shell=True)
 
         time.sleep(2)
         print("Robotiq Gripper Started")

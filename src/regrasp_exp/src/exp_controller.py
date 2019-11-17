@@ -9,7 +9,7 @@ import numpy as np
 
 # pregrasp pose
 PREGRASP_POSE = np.array([1.442132192579322, -1.81151146845066, 2.301598803677338, -2.057281855307231, -1.5725453642862393, 1.4418938000460932])
-
+START_POSE = np.array([1.4435208222959686, -1.797202303913668, 1.9166961218088687, -2.7331856205814793, -1.4603545035395626, 1.5049200971698213])
 def mainLoop():
     global dl_service
     global ur5
@@ -42,11 +42,27 @@ def mainLoop():
 
     while not rospy.is_shutdown():
 
-        gripper.goto_gripper_pos(150)
+        gripper.goto_gripper_pos(180)
 
         time.sleep(1)
 
         ur5.goto_home_pose(wait=False)
+
+        time.sleep(1)
+
+        ur5.goto_joint_target(START_POSE, wait=False)
+
+        time.sleep(1)
+
+        gripper.goto_gripper_pos(120)
+
+        time.sleep(10)
+
+        ur5.goto_home_pose(wait=False)
+
+        time.sleep(1)
+
+        gripper.goto_gripper_pos(180)
 
         time.sleep(1)
 

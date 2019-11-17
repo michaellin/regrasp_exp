@@ -21,7 +21,7 @@ STOP_LOG = 2
 
 
 def mainLoop():
-    rospy.init_node('regraspExp')
+    rospy.init_node('test')
 
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
