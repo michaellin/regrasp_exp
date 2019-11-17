@@ -1,6 +1,0 @@
-robotiq/robotiq_ethercat
-/home/michael/workspace/regrasp_exp/devel/.private/robotiq_ethercat/cmake.lock /home/michael/workspace/regrasp_exp/devel/./cmake.lock
-/home/michael/workspace/regrasp_exp/devel/.private/robotiq_ethercat/share/robotiq_ethercat/cmake/robotiq_ethercatConfig.cmake /home/michael/workspace/regrasp_exp/devel/share/robotiq_ethercat/cmake/robotiq_ethercatConfig.cmake
-/home/michael/workspace/regrasp_exp/devel/.private/robotiq_ethercat/share/robotiq_ethercat/cmake/robotiq_ethercatConfig-version.cmake /home/michael/workspace/regrasp_exp/devel/share/robotiq_ethercat/cmake/robotiq_ethercatConfig-version.cmake
-/home/michael/workspace/regrasp_exp/devel/.private/robotiq_ethercat/lib/librobotiq_ethercat.so /home/michael/workspace/regrasp_exp/devel/lib/librobotiq_ethercat.so
-/home/michael/workspace/regrasp_exp/devel/.private/robotiq_ethercat/lib/pkgconfig/robotiq_ethercat.pc /home/michael/workspace/regrasp_exp/devel/lib/pkgconfig/robotiq_ethercat.pc

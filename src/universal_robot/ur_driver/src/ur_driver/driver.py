@@ -15,6 +15,7 @@ from sensor_msgs.msg import JointState
 from control_msgs.msg import FollowJointTrajectoryAction
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 from geometry_msgs.msg import WrenchStamped
+from ur_msgs.msg import Analog as an
 
 from dynamic_reconfigure.server import Server
 from ur_driver.cfg import URDriverConfig
@@ -214,16 +215,16 @@ class URConnection(object):
             msg.digital_out_states.append(DigitalOut(i, (state.masterboard_data.digital_output_bits & (1<<i))>>i))
         #gets analog_in[0] state
         inp = state.masterboard_data.analog_input0 / MULT_analog_robotstate
-        msg.analog_in_states.append(Analog(0, inp))
+        msg.analog_in_states.append(an(0, 0, inp))
         #gets analog_in[1] state
         inp = state.masterboard_data.analog_input1 / MULT_analog_robotstate
-        msg.analog_in_states.append(Analog(1, inp))      
+        msg.analog_in_states.append(an(1, 0, inp))      
         #gets analog_out[0] state
         inp = state.masterboard_data.analog_output0 / MULT_analog_robotstate
-        msg.analog_out_states.append(Analog(0, inp))     
+        msg.analog_out_states.append(an(0, 0, inp))     
         #gets analog_out[1] state
         inp = state.masterboard_data.analog_output1 / MULT_analog_robotstate
-        msg.analog_out_states.append(Analog(1, inp))     
+        msg.analog_out_states.append(an(1, 0, inp))     
         #print "Publish IO-Data from robot state data"
         pub_io_states.publish(msg)
         

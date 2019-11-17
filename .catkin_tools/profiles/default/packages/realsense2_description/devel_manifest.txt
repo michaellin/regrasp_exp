@@ -1,5 +1,0 @@
-realsense-ros/realsense2_description
-/home/michael/workspace/regrasp_exp/devel/.private/realsense2_description/cmake.lock /home/michael/workspace/regrasp_exp/devel/./cmake.lock
-/home/michael/workspace/regrasp_exp/devel/.private/realsense2_description/share/realsense2_description/cmake/realsense2_descriptionConfig-version.cmake /home/michael/workspace/regrasp_exp/devel/share/realsense2_description/cmake/realsense2_descriptionConfig-version.cmake
-/home/michael/workspace/regrasp_exp/devel/.private/realsense2_description/share/realsense2_description/cmake/realsense2_descriptionConfig.cmake /home/michael/workspace/regrasp_exp/devel/share/realsense2_description/cmake/realsense2_descriptionConfig.cmake
-/home/michael/workspace/regrasp_exp/devel/.private/realsense2_description/lib/pkgconfig/realsense2_description.pc /home/michael/workspace/regrasp_exp/devel/lib/pkgconfig/realsense2_description.pc

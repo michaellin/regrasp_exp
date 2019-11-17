@@ -3,53 +3,74 @@
 import rospy
 from regrasp_exp.srv import logData, logDataResponse
 from ur5_interface import UR5Interface
+from robotiq_interface import RobotiqInterface
+import os, time
+import numpy as np
 
-
-
+# pregrasp pose
+PREGRASP_POSE = np.array([1.442132192579322, -1.81151146845066, 2.301598803677338, -2.057281855307231, -1.5725453642862393, 1.4418938000460932])
 
 def mainLoop():
+    global dl_service
     global ur5
-    global robot_data_pub
 
-    rospy.init_node('regraspExp')
+    rospy.init_node('regraspExp', disable_signals=True)
 
     # Make this node a service
     dl_service = rospy.ServiceProxy('logData', logData)
 
-    # #Gripper is a C-Model with a TCP connection
-    # gripper = robotiq_c_model_control.baseCModel.robotiqBaseCModel()
-    # gripper.client = robotiq_modbus_rtu.comModbusRtu.communication()
-
-    # #We connect to the address received as an argument
-    # gripper.client.connectToDevice(device)
-
     # Initialize ur5 interface
     ur5 = UR5Interface()
 
-    # Publish robot data constantly
-    #robot_data_pub = rospy.Publisher('RobotDataPacket', RobotDataPacket, queue_size=1)
+    ur5.goto_home_pose()
+
+    time.sleep(2)
+
+    # Initialize robotiq interface
+    gripper = RobotiqInterface()
 
     # Run data logger process
-    os.system("rosrun regrasp_exp exp_Data_log.py &")
+    os.system("rosrun regrasp_exp exp_data_log.py &")
     time.sleep(4)
 
     # Start logging data
     resp = dl_service('Start')
 
+    ur5.goto_joint_target(PREGRASP_POSE, wait=False)
+
+    time.sleep(2)
+
     while not rospy.is_shutdown():
-        # publish robot data
-        #robot_data_msg = RobotDataPacket()
-        #robot_data_msg.ee_pose = ur5.get_pose()
-        #robot_data_pub.publish(robot_data_msg)
+
+        gripper.goto_gripper_pos(150)
+
+        time.sleep(1)
+
+        ur5.goto_home_pose(wait=False)
+
+        time.sleep(1)
+
+        ur5.goto_joint_target(PREGRASP_POSE, wait=False)
+
+        gripper.goto_gripper_pos(0)
+
+        time.sleep(1)
 
 
-        # command trajectories
+        #while not rospy.is_shutdown():
+
+            # command trajectories
 
 
 if __name__ == '__main__':
+    global dl_service
     try:
         print("Started!")
         mainLoop()
     except KeyboardInterrupt:
+        resp = dl_service('Stop')
         rospy.signal_shutdown("KeyboardInterrupt")
         raise
+    except Exception:
+        resp = dl_service('Stop')
+        print("other exceptions")

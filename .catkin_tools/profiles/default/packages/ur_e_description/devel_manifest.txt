@@ -1,5 +1,0 @@
-universal_robot/ur_e_description
-/home/michael/workspace/regrasp_exp/devel/.private/ur_e_description/cmake.lock /home/michael/workspace/regrasp_exp/devel/./cmake.lock
-/home/michael/workspace/regrasp_exp/devel/.private/ur_e_description/share/ur_e_description/cmake/ur_e_descriptionConfig-version.cmake /home/michael/workspace/regrasp_exp/devel/share/ur_e_description/cmake/ur_e_descriptionConfig-version.cmake
-/home/michael/workspace/regrasp_exp/devel/.private/ur_e_description/share/ur_e_description/cmake/ur_e_descriptionConfig.cmake /home/michael/workspace/regrasp_exp/devel/share/ur_e_description/cmake/ur_e_descriptionConfig.cmake
-/home/michael/workspace/regrasp_exp/devel/.private/ur_e_description/lib/pkgconfig/ur_e_description.pc /home/michael/workspace/regrasp_exp/devel/lib/pkgconfig/ur_e_description.pc
