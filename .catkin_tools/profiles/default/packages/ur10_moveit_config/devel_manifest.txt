@@ -1,5 +1,5 @@
 universal_robot/ur10_moveit_config
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur10_moveit_config/cmake.lock /home/michael/workspace/tri_pc_segmentation/devel/./cmake.lock
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur10_moveit_config/share/ur10_moveit_config/cmake/ur10_moveit_configConfig-version.cmake /home/michael/workspace/tri_pc_segmentation/devel/share/ur10_moveit_config/cmake/ur10_moveit_configConfig-version.cmake
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur10_moveit_config/share/ur10_moveit_config/cmake/ur10_moveit_configConfig.cmake /home/michael/workspace/tri_pc_segmentation/devel/share/ur10_moveit_config/cmake/ur10_moveit_configConfig.cmake
-/home/michael/workspace/tri_pc_segmentation/devel/.private/ur10_moveit_config/lib/pkgconfig/ur10_moveit_config.pc /home/michael/workspace/tri_pc_segmentation/devel/lib/pkgconfig/ur10_moveit_config.pc
+/home/michael/workspace/regrasp_exp/devel/.private/ur10_moveit_config/cmake.lock /home/michael/workspace/regrasp_exp/devel/./cmake.lock
+/home/michael/workspace/regrasp_exp/devel/.private/ur10_moveit_config/share/ur10_moveit_config/cmake/ur10_moveit_configConfig-version.cmake /home/michael/workspace/regrasp_exp/devel/share/ur10_moveit_config/cmake/ur10_moveit_configConfig-version.cmake
+/home/michael/workspace/regrasp_exp/devel/.private/ur10_moveit_config/share/ur10_moveit_config/cmake/ur10_moveit_configConfig.cmake /home/michael/workspace/regrasp_exp/devel/share/ur10_moveit_config/cmake/ur10_moveit_configConfig.cmake
+/home/michael/workspace/regrasp_exp/devel/.private/ur10_moveit_config/lib/pkgconfig/ur10_moveit_config.pc /home/michael/workspace/regrasp_exp/devel/lib/pkgconfig/ur10_moveit_config.pc
