@@ -14,7 +14,6 @@ import time
 
 from tae_psoc.msg import SensorPacket
 from tae_psoc.msg import cmdToPsoc
-from ur5_interface import UR5Interface
 
 
 IDLE = 0
@@ -51,9 +50,6 @@ def mainLoop():
     # gripper.client.connectToDevice(device)
 
     rospy.init_node('psocSubscribeTest')
-
-    # Initialize ur5 interface
-    ur5 = UR5Interface()
 
     #Each Sensor Reading is Published to topic 'SensorReading'
     cmd_pub = rospy.Publisher('cmdToPsoc', cmdToPsoc, queue_size=1)

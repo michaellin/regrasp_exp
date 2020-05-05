@@ -90,7 +90,6 @@ while time.time() - tic < runTime:
         
         
         storingCounter += 1
-        
         #if the data overflows
         if storingCounter > dataBuffer.shape[0]-1:
             dataBuffer = np.append(dataBuffer, np.zeros((init_BufferSize,ts.num_sensors)), axis=0)
@@ -112,16 +111,24 @@ if SensorExist:
         #%% Plot the data
         import matplotlib.pyplot as plt
         plt.figure()
-        plt.plot(dataBuffer[:,0:4])
+        plt.plot(dataBuffer[:,0:3])
         plt.ylabel('Digital Count')
         plt.xlabel('sample')
+        plt.legend(['fx','fy','fz'])
         plt.grid()
-        plt.show()
 
         plt.figure()
-        plt.plot(dataBuffer[:,4:6])
+        plt.plot(dataBuffer[:,3:6])
         plt.ylabel('Digital Count')
         plt.xlabel('sample')
+        plt.legend(['mx','my','mz'])
+        plt.grid()
+
+        plt.figure()
+        plt.plot(dataBuffer[:,0:11])
+        plt.ylabel('Digital Count')
+        plt.xlabel('sample')
+        plt.legend(['mx','my','mz'])
         plt.grid()
         plt.show()
     
